@@ -1,13 +1,52 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
+*.obj
+*.user
+*.pdb
+*.idp
+echo_service/Debug
+Debug
+obj
+*.ncb
+*.suo
+*.lib
+*.exe
+*.dll
+*.exp
+*.ilk
+*.map
+*.apk
+*.vcproj
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
+Cef_Debug/bin/DTrace.ini
+Cef_Debug/bin/FixFtp.reg
+Cef_Debug/bin/debug.log
+Cef_Debug/bin/devtools_resources.pak
+Cef_Debug/bin/locales/
+Cef_Debug/bin/meepo_resource/
+Cef_Debug/bin/pdb_config.txt
+Cef_Debug/bin/resources/
+Cef_Debug/bin/themes/
+Cef_Debug/bin/uires/
+Cef_Debug/bin/wandoujia2.xml
+Cef_Release/bin/uires/
+build_resources/Cef_Debug/
+platform/meepo/Release/
+tools/mul_lang_tool/backup/
+tools/mul_lang_tool/create_resourceh.pyc
+tools/mul_lang_tool/library/id_map.txt
+tools/mul_lang_tool/origin/
+tools/mul_lang_tool/translate_update.pyc
+tools/mul_lang_tool/txts_update_view.pyc
+tools/mul_lang_tool/view_update_txts.pyc
+tools/online_installer/WDJSetup/bd_require.h
+view/wandoujia_res/res/resource.h
+view/wandoujia_res/res/view.rc
+view/wandoujia_res_en/res/view.rc
+view/wandoujia_shlext/dlldata.c
+view/wandoujia_shlext/wandoujia_shlext_i.c
+view/wandoujia_shlext/wandoujia_shlext_i.h
+view/wandoujia_shlext/wandoujia_shlext_p.c
+view/wdbho/dlldata.c
+view/wdbho/wdbho_i.c
+view/wdbho/wdbho_i.h
+view/wdbho/wdbho_p.c
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
