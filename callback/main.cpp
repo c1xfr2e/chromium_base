@@ -4,6 +4,7 @@
 #include "base/bind.h"
 #include "base/bind_internal.h"
 using namespace base;
+using namespace internal;
 
 int Sum(int a, int b) {
   return a + b;
@@ -13,19 +14,24 @@ int Sum3(int a, int b, int c) {
   return a + b + c;
 }
 
+int Sum4(int a, int b, int c, int d) {
+  return a + b + c + d;
+}
+
 class Foo {
 public:
   Foo(int x) : i_(x) {}
   int Add(int x) { return x + i_; }
   ~Foo() { }
-private:
   int i_;
 };
 
 class Bar {
 public:
   Bar(int x) : i_(x) {}
+  Bar(const Bar& f) : i_(f.i_) {}
   int Add(int x, int y) { return i_ + x + y; }
+  int Add2(int x) const { return i_ + x; }
 private:
   int i_;
 };
@@ -35,62 +41,58 @@ void function(void* p, int x) {
   T* T = reinterpret_cast<T*>(p);
 }
 
+
+int DoSomething(int arg) { 
+  int i = arg++;
+  i++;
+  return i;
+}
+
+int ProcessBar(const Bar& b) {
+  return b.Add2(1);
+}
+
 int main() {
   // const reference to function pointer
   int (*const& Ptr)(int,int) = &Sum;
-  
-  Foo f(2222);
-  typedef int (*Functor1)(int,int);
-  typedef int (Bar::*Functor2)(int,int);
-  typedef int (*Functor3)(int,int,int);
-  typedef void (*Functor4)(int,int,int);
 
-  Functor1 functor = &Sum;
-
-  typedef internal::BindState<typename internal::FunctorTraits<Functor1>::RunnableType,
-                              typename internal::FunctorTraits<Functor1>::RunType,
-                              void()> BindStateType1;
-  BindStateType1 bst1(internal::MakeRunnable(&Sum));
-  base::Callback<int(int,int)> callback1(&bst1);
+  typedef BindState<RunnableAdapter<int(*)(int,int)>, int(int,int), void()> BindStateType1;
+  BindStateType1 bst1((RunnableAdapter<int(*)(int,int)>)(&Sum));
+  Callback<int(int,int)> callback1(&bst1);
   callback1.Run(1998, 2004);
 
-  typedef internal::BindState<typename internal::FunctorTraits<Functor3>::RunnableType,
-                              typename internal::FunctorTraits<Functor3>::RunType,
-                              void(int,int)> 
-                              BindStateType3;
-  BindStateType3 bst3(internal::MakeRunnable(&Sum3), 1, 2); // IgnoreResult(&Sum3)
-  base::Callback<int(int)> callback3(&bst3);
-  int callback3_result = callback3.Run(3);
+  typedef BindState<RunnableAdapter<int(*)(int,int,int)>,
+                    int(int,int,int),
+                    void(int,int)> 
+                    BindStateType2;
+  BindStateType2 bst2(MakeRunnable(&Sum3), 1, 2);
+  Callback<int(int)> callback2(&bst2);
+  int callback2_result = callback2.Run(3);
 
-  typedef internal::BindState<typename internal::FunctorTraits<Functor3>::RunnableType,
-                              typename internal::FunctorTraits<Functor3>::RunType,
-                              void(int,int)> 
-                              BindStateType_IgnoreResult;
-  BindStateType_IgnoreResult bst_ignore_result(internal::MakeRunnable(base::IgnoreResult(&Sum3)), 3, 4);
-  base::Callback<int(int)> callback_ignore_result(&bst_ignore_result);
-  int re = callback_ignore_result.Run(23);
-
-  typedef internal::BindState<typename internal::FunctorTraits<Functor2>::RunnableType,
-                              typename internal::FunctorTraits<Functor2>::RunType,
-                              void(base::internal::UnretainedWrapper<Bar>, int)> 
-                              BindStateType4;
+  typedef BindState<RunnableAdapter<int(Bar::*)(int,int)>,
+                    int(Bar*,int,int),
+                    void(UnretainedWrapper<Bar>, int)> 
+                    BindStateType3;
   Bar object_bar(2);
-  BindStateType4 bst4(internal::MakeRunnable(&Bar::Add), Unretained(&object_bar), 200);
-  base::Callback<int(int)> callback4(&bst4);
-  int callback4_result = callback4.Run(300);
+  BindStateType3 bst3(MakeRunnable(&Bar::Add), Unretained(&object_bar), 200);
+  Callback<int(int)> callback3(&bst3);
+  int callback3_result = callback3.Run(300);
 
-  typedef internal::BindState<typename internal::FunctorTraits<Functor2>::RunnableType,
-                              typename internal::FunctorTraits<Functor2>::RunType,
-                              void(base::internal::UnretainedWrapper<Bar>)> BindStateType2;
+  typedef BindState<RunnableAdapter<int(*)(int,int,int,int)>,
+    int(int,int,int,int),
+    void(int,int)> 
+    BindStateType4;
+  BindStateType4 bst4(MakeRunnable(&Sum4), 1, 2);
+  Callback<int(int,int)> callback4(&bst4);
+  int callback4_result = callback4.Run(3,4);
 
-  Bar b(2);
-  BindStateType2 bst2(internal::MakeRunnable(&Bar::Add), Unretained(&b));
+  // ignore result
+  Callback<void(int)> cbvi = Bind(IgnoreResult(&DoSomething));
+  cbvi.Run(1);
 
-  Bar bbbb(2);
-  base::Callback<int(int,int)> c4(new BindStateType2(internal::MakeRunnable(&Bar::Add), Unretained(&bbbb)));
-  c4.Run(1,2);
+  Callback<int(void)> cbb = Bind(&ProcessBar, object_bar);
+  int result = cbb.Run();
 
-  base::Callback<int(int,int)> c5 = base::Bind(&Bar::Add, Unretained(&bbbb));
 
   return 0;
 } 
