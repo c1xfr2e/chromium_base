@@ -14,7 +14,6 @@ obj
 *.ilk
 *.map
 *.apk
-*.vcproj
 
 Cef_Debug/bin/DTrace.ini
 Cef_Debug/bin/FixFtp.reg

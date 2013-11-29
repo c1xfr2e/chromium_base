@@ -18,6 +18,10 @@ int Sum4(int a, int b, int c, int d) {
   return a + b + c + d;
 }
 
+int Extract(const int& a, const int& b) {
+  return a - b;
+}
+
 class Foo {
 public:
   Foo(int x) : i_(x) {}
@@ -69,6 +73,9 @@ int main() {
   Callback<int(int)> callback2(&bst2);
   int callback2_result = callback2.Run(3);
 
+  Callback<int(const int&)> callback___ = Bind(&Extract, 1);
+  callback___.Run(4);
+
   typedef BindState<RunnableAdapter<int(Bar::*)(int,int)>,
                     int(Bar*,int,int),
                     void(UnretainedWrapper<Bar>, int)> 
@@ -77,6 +84,7 @@ int main() {
   BindStateType3 bst3(MakeRunnable(&Bar::Add), Unretained(&object_bar), 200);
   Callback<int(int)> callback3(&bst3);
   int callback3_result = callback3.Run(300);
+
 
   typedef BindState<RunnableAdapter<int(*)(int,int,int,int)>,
     int(int,int,int,int),

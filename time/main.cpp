@@ -1,9 +1,17 @@
 // Copyright (c) 2012 The Wandoujia Authors. All rights reserved.
 #include <objbase.h>
 #include "base/time.h"
+#include "base/file_path.h"
+#include "base/path_service.h"
 using namespace base;
 
 int main() {
+  unsigned int i = 4294967295;
+  int ii = i;
+
+  FilePath executableDir;
+  PathService::Get(base::DIR_MODULE, &executableDir);
+
   base::Time::Exploded exploded = {0};
   exploded.year = 2013;
   exploded.month = 11;
