@@ -3,7 +3,6 @@
 *.pdb
 *.idp
 echo_service/Debug
-Debug
 obj
 *.ncb
 *.suo
@@ -14,6 +13,7 @@ obj
 *.ilk
 *.map
 *.apk
+Debug
 
 Cef_Debug/bin/DTrace.ini
 Cef_Debug/bin/FixFtp.reg
