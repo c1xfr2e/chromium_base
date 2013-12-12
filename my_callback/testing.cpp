@@ -17,8 +17,11 @@ int main() {
                     int(int,int,int), 
                     void(int,int), 
                     int> BS1;
+  
+  typedef Callback<int(int)> SameCallbackType;
+
   BS1 bs1(RunnableAdapter<int(*)(int,int,int)>(&Sum3), 10, 20);
-  Callback<int(int)> cb1(&bs1);
+  SameCallbackType cb1(&bs1);
   int total = cb1.Run(30);
 
   typedef BindState<RunnableAdapter<int(Bar::*)(int,int)>, 
@@ -27,7 +30,7 @@ int main() {
                     int> BS2;
   Bar object_bar(1);
   BS2 bs2(RunnableAdapter<int(Bar::*)(int,int)>(&Bar::Add), &object_bar, 800);
-  Callback<int(int)> cb2(&bs2);
+  SameCallbackType cb2(&bs2);
   total = cb2.Run(60);
 
   return 0;
