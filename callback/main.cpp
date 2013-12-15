@@ -1,4 +1,3 @@
-// Copyright (c) 2012 The Wandoujia Authors. All rights reserved.
 #include <objbase.h>
 #include "base/callback.h"
 #include "base/bind.h"
@@ -84,7 +83,7 @@ int main() {
   BindStateType3 bst3(MakeRunnable(&Bar::Add), Unretained(&object_bar), 200);
   Callback<int(int)> callback3(&bst3);
   int callback3_result = callback3.Run(300);
-
+  Callback<int(int)> callback3_ = Bind(&Bar::Add, Unretained(&object_bar), 200);
 
   typedef BindState<RunnableAdapter<int(*)(int,int,int,int)>,
     int(int,int,int,int),

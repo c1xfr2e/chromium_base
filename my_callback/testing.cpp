@@ -12,10 +12,12 @@ private:
   int i_;
 };
 
+void f1()
+
 int main() {
-  typedef BindState<RunnableAdapter<int(*)(int,int,int)>, 
-                    int(int,int,int), 
-                    void(int,int), 
+  typedef BindState<RunnableAdapter<int(*)(int,int,int)>,
+                    int(int,int,int),
+                    void(int,int),
                     int> BS1;
   
   typedef Callback<int(int)> SameCallbackType;
@@ -24,9 +26,9 @@ int main() {
   SameCallbackType cb1(&bs1);
   int total = cb1.Run(30);
 
-  typedef BindState<RunnableAdapter<int(Bar::*)(int,int)>, 
-                    int(Bar*,int,int), 
-                    void(Bar*,int), 
+  typedef BindState<RunnableAdapter<int(Bar::*)(int,int)>,
+                    int(Bar*,int,int),
+                    void(Bar*,int),
                     int> BS2;
   Bar object_bar(1);
   BS2 bs2(RunnableAdapter<int(Bar::*)(int,int)>(&Bar::Add), &object_bar, 800);
