@@ -5,6 +5,7 @@
 #ifndef BASE_OBSERVER_LIST_H__
 #define BASE_OBSERVER_LIST_H__
 #pragma once
+#pragma warning(disable:4003)
 
 #include <algorithm>
 #include <limits>
