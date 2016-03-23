@@ -1,4 +1,5 @@
 chromium_base
 =============
 
-Basic instructions in chromium project.
+C++ infrastructures in Chromium project ported to Visual Studio.
+It is for study purpose.
