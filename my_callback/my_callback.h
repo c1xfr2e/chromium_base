@@ -23,8 +23,7 @@ public:
     : function_(function) {
   }
 
-  R Run(typename CallbackParamTraits<A1>::ForwardType a1,
-    typename CallbackParamTraits<A2>::ForwardType a2) {
+  R Run(typename CallbackParamTraits<A1>::ForwardType a1, typename CallbackParamTraits<A2>::ForwardType a2) {
       return function_(CallbackForward(a1), CallbackForward(a2));
   }
 
@@ -42,8 +41,7 @@ public:
     : method_(method) {
   }
 
-  R Run(T* object, typename CallbackParamTraits<A1>::ForwardType a1,
-    typename CallbackParamTraits<A2>::ForwardType a2) {
+  R Run(T* object, typename CallbackParamTraits<A1>::ForwardType a1, typename CallbackParamTraits<A2>::ForwardType a2) {
       return (object->*method_)(CallbackForward(a1), CallbackForward(a2));
   }
 
@@ -61,9 +59,8 @@ public:
     : method_(method) {
   }
 
-  R Run(const T* object, typename CallbackParamTraits<A1>::ForwardType a1,
-    typename CallbackParamTraits<A2>::ForwardType a2) {
-      return (object->*method_)(CallbackForward(a1), CallbackForward(a2));
+  R Run(const T* object, typename CallbackParamTraits<A1>::ForwardType a1, typename CallbackParamTraits<A2>::ForwardType a2) {
+    return (object->*method_)(CallbackForward(a1), CallbackForward(a2));
   }
 
 private:
@@ -80,11 +77,8 @@ public:
     : function_(function) {
   }
 
-  R Run(typename CallbackParamTraits<A1>::ForwardType a1,
-    typename CallbackParamTraits<A2>::ForwardType a2,
-    typename CallbackParamTraits<A3>::ForwardType a3) {
-      return function_(CallbackForward(a1), CallbackForward(a2),
-        CallbackForward(a3));
+  R Run(typename CallbackParamTraits<A1>::ForwardType a1, typename CallbackParamTraits<A2>::ForwardType a2, typename CallbackParamTraits<A3>::ForwardType a3) {
+    return function_(CallbackForward(a1), CallbackForward(a2), CallbackForward(a3));
   }
 
 private:
@@ -101,11 +95,8 @@ public:
     : method_(method) {
   }
 
-  R Run(T* object, typename CallbackParamTraits<A1>::ForwardType a1,
-    typename CallbackParamTraits<A2>::ForwardType a2,
-    typename CallbackParamTraits<A3>::ForwardType a3) {
-      return (object->*method_)(CallbackForward(a1), CallbackForward(a2),
-        CallbackForward(a3));
+  R Run(T* object, typename CallbackParamTraits<A1>::ForwardType a1, typename CallbackParamTraits<A2>::ForwardType a2, typename CallbackParamTraits<A3>::ForwardType a3) {
+      return (object->*method_)(CallbackForward(a1), CallbackForward(a2), CallbackForward(a3));
   }
 
 private:
@@ -122,11 +113,8 @@ public:
     : method_(method) {
   }
 
-  R Run(const T* object, typename CallbackParamTraits<A1>::ForwardType a1,
-    typename CallbackParamTraits<A2>::ForwardType a2,
-    typename CallbackParamTraits<A3>::ForwardType a3) {
-      return (object->*method_)(CallbackForward(a1), CallbackForward(a2),
-        CallbackForward(a3));
+  R Run(const T* object, typename CallbackParamTraits<A1>::ForwardType a1, typename CallbackParamTraits<A2>::ForwardType a2, typename CallbackParamTraits<A3>::ForwardType a3) {
+      return (object->*method_)(CallbackForward(a1), CallbackForward(a2), CallbackForward(a3));
   }
 
 private:
@@ -169,8 +157,8 @@ struct BindState<Runnable, R(P1, P2, P3), void(P1, P2), R> : public BindStateBas
 class CallbackBase {
 protected:
   typedef void(*InvokeFuncStorage)(void);
-  explicit CallbackBase(BindStateBase* bind_state) 
-    : bind_state_(bind_state), 
+  explicit CallbackBase(BindStateBase* bind_state)
+    : bind_state_(bind_state),
     polymorphic_invoke_(0) {
   }
   ~CallbackBase() {}
